@@ -1,0 +1,22 @@
+<div class='d-flex flex-column align-items-center'>
+    <h1 class='h1'>Family</h1>
+    <hr>
+    <a href="{% url 'home' 1%}" class='btn btn-outline-dark m-2' style='width:200px'>All</a>
+    {% for family in families %}
+    <button id ='{{family.family_name}}'  class='btn btn-outline-dark m-2' style='width:200px'>{{family.family_name}}</button>
+    
+    {% endfor %}
+    <button class="btn btn-outline-success position-relative mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        Add Family
+      </button>
+      <form class="collapse mb-2 p-0 " id="collapseExample" method='POST'>
+        {% csrf_token %}
+        {% for form in famForm %}
+            <p class='m-0 mt-3 p-0 fs-5 text-center'><b>{{form.label}}</b></p>
+            {{form}}
+            
+        {% endfor %}
+        <button class='btn btn-outline-success ' type='submit'>Add</buttom>
+      </form>
+
+</div>
