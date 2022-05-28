@@ -9,14 +9,78 @@
     <button class="btn btn-outline-success position-relative mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
         Add Family
       </button>
-      <form class="collapse mb-2 p-0 " id="collapseExample" method='POST'>
+      <div class="collapse mb-2 p-0 " id="collapseExample" method='POST'>
         {% csrf_token %}
         {% for form in famForm %}
             <p class='m-0 mt-3 p-0 fs-5 text-center'><b>{{form.label}}</b></p>
             {{form}}
             
         {% endfor %}
-        <button class='btn btn-outline-success ' type='submit'>Add</buttom>
-      </form>
+        <button class='btn btn-outline-success ' id='myBtn'>Add</buttom>
+        </div>
+        <div id="myModal" class="modal">
 
+          <!-- Modal content -->
+          <form method='POST' class="modal-content">
+            {% csrf_token %}
+            <span class="close">&times;</span>
+            <p >Are you sure you want to add this Family?</p>
+            <div class='d-flex '>
+              <button id='fam-value' type='submit' name='family_name' class='btn btn-outline-success m-1'>Add</button>
+              <a   id='myBtnCls' class='btn btn-outline-danger m-1'>Cancel</a> 
+
+            </div>
+          </form>
+        
+        </div>
+        <div id="myModalNew" class="modal">
+
+          <!-- Modal content -->
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <p >Family Already Exists</p>
+          </div>
+        
+        </div>
 </div>
+<script>
+
+  var modal = document.getElementById("myModal");
+  var modalNew = document.getElementById("myModalNew");
+  var btn = document.getElementById("myBtn");
+  var btncls = document.getElementById("myBtnCls");
+  var span = document.getElementsByClassName("close")[0];
+  var spanNew = document.getElementsByClassName("close")[1];
+
+  btn.onclick = function() {
+    input_value = document.getElementById("id_family_name").value
+    var fl = true
+    {% for family in families %}
+    if ('{{family.family_name}}' === input_value){
+      modalNew.style.display = "block"
+      var fl = false
+    }
+    {% endfor %}
+    if (fl){
+    modal.style.display = "block";
+    document.getElementById('fam-value').value = input_value
+    }
+  }
+  
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+  spanNew.onclick = function() {
+    modalNew.style.display = "none";
+  }
+  btncls.onclick= function() {
+    modal.style.display = "none";
+  }
+
+  window.onclick = function(event) {
+    if (event.target == modal || event.target == modalNew) {
+      modal.style.display = "none";
+      modalNew.style.display = 'none'
+    }
+  }
+</script>
