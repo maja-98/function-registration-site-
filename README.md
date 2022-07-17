@@ -1,4 +1,4 @@
 # function-registration-site-
-created for marking attended person in a family meetup
+Using this website we can pre add users or add user at the instant for a registering (Created for a family function registration)
 
-Work in progress...
+Minor Bug fixes are pending
