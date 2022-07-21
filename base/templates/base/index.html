@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <title>Registration Form</title>
+        
+        {% comment %} <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">     {% endcomment %}
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href={% static 'css/main.css' %}>
+        <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,minimum-scale=1">
+    </head>
+    <body class='bg-white'>
+        <nav>
+            {% include 'base/navbar.html'%}
+        </nav>
+        <p class='h4 ms-3 mt-1 text-center' id='search_result'></p>
+        <div class='m-3 row'>
+            <div class='col-3 bg-new'>
+                {% include 'base/fam-filter.html'%}
+            </div>
+            <div class='col-6 overflow-scroll' style='height:600px'>
+                {% comment %} 
+                <h1>{{member.name}}<h1>
+                <h2>{{member.family}}</h2>
+                <h3>{{member.age}}</h3>
+                <img class='rounded' src={{member.photo.url}} width=105mm height=120mm></img>
+                <p>{{member.attended}}</p>
+                <p>Edit</p> {% endcomment %}
+                {% for member in members %}
+                <div class="card mb-3" style="max-width: 700px;">
+                    <div class="row g-0">
+                      <div class="col-md-4">
+                        <img src="{{member.photo.url}}" style="height:200px; width:160px" class="img-fluid rounded-start" alt="...">
+                      </div>
+                      <div class="col-md-6">
+                        <div class="card-body">
+                          <p class="card-text fs-5 m-1">Name: <b>{{member.name}}</b></p>
+                          <p class="card-text fs-5 m-1">Family: <b>{{member.family}}</b></p>
+                          <p class="card-text fs-6 m-1"><small class="text-muted">Age: <b>{{member.age}}</b></small></p>
+                          {% if member.attended %}
+                          <p class='card-text bg-success text-white rounded p-1 text-wrap' style="width: 8rem"> Registered </p>
+                          {% else %}
+                          <p class='card-text bg-danger text-white text-fluid rounded p-1 text-wrap' style="width: 8rem"> Not Registered </p>
+                          {% endif %}
+
+                        </div>
+                      </div>
+                      <div class="col-md-2  ">
+                          <div class='card-body p-0 mt-5 me-1 '>
+                                <a href="{% url 'edit-user' member.id %}" class='btn img-fluid btn-md btn-outline-success d-none d-sm-block d-md-none d-lg-block'>Edit</a>
+                                <a href="{% url 'edit-user' member.id %}" class='btn img-fluid btn-md btn-outline-success d-block d-sm-none d-md-block d-lg-none'><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                    <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+                                  </svg></a>
+                                <form method='POST'>
+                                  {% csrf_token %}
+                                  <button class='btn btn-outline-danger mt-1'name='toggle' value={{member.id}} type='submit'>Toggle Reg </reg>
+                                </form>
+                            </div>
+                    </div>
+                    </div>
+                  </div>
+                {% endfor %}
+                
+            </div>
+            
+            <div class='col-3 bg-new'>
+                {% include 'base/additional.html' %}
+            </div>
+            <footer class=''>
+              <div class='d-flex justify-content-center m-1 '>
+                {% for i in range %}
+                <a id='page-change-{{range}}' class='btn btn-outline-dark  border mx-1'>{{i}}</a>
+                {% endfor %}
+              </div>
+              <p class='bg-light text-center m-1'> &#169; MAJA </p>
+
+            </footer>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <script type='text/javascript'>
+          
+          var get_values_list = '{{request.get_full_path}}'.split('/')
+          get_values_start = get_values_list[get_values_list.length-1].split('?')
+  
+          get_values = get_values_start[get_values_start.length-1].replaceAll('&amp;','&').split('&')
+          for (let i=0;i<get_values.length;i++){
+            
+            if (get_values[i].includes('=')){
+              var style_set = get_values[i].split('=')
+              if (style_set[0]==='reg'){
+                
+                if (style_set[1]=='1'){
+                  document.getElementById('regtrue').style.backgroundColor = 'black';
+                  document.getElementById('regtrue').style.color = 'white';
+                }
+                else{
+                  document.getElementById('regfalse').style.backgroundColor = 'black';
+                  document.getElementById('regfalse').style.color = 'white';
+                }
+              }
+              if (style_set[0]==='fam'){
+                
+                document.getElementById(style_set[1]).style.backgroundColor = 'black';
+                document.getElementById(style_set[1]).style.color = 'white';
+                
+              }
+              if (style_set[0]==='q'){
+                if (style_set[1]){
+                document.getElementById('search_result').innerHTML = "Search result for '"+ style_set[1]+"'";}
+                document.getElementById('search_result').value = style_set[1]
+              }
+            }
+          }
+
+          document.getElementById('main-search').addEventListener('click',mySearch)
+          {% for i in range %}
+          document.getElementById('page-change-{{range}}').addEventListener('click',pageChange)
+
+          function pageChange(){
+            let href_val = get_values_list.slice(0,-1).join('/')+{{range}}+get_values_list.slice(-1)
+            window.location.href = href_val
+          }
+          {% endfor %}
+          {% for family in families %}
+          document.getElementById('{{family.family_name}}').addEventListener('click',{{family.family_name}})
+          function {{family.family_name}}(){
+            var val = '{{family.family_name}}'
+            if (!('{{request.get_full_path}}'.includes('?'))){
+              var value = "{{request.get_full_path}}?fam="+val
+              window.location.href = value;
+            }
+            else if ( !( '{{request.get_full_path}}'.includes('fam=')   )){    
+              var value = get_values_list.slice(0,-1).join('/') +'/'+ get_values_start[0]+'?'+get_values.join('&')+'&fam='+val
+              value = (value.replaceAll('&amp;','&'))
+              window.location.href =  value;
+              }
+            else  {
+                values = "{{request.get_full_path}}".split('/')
+                console.log(values)
+                splits = values[values.length-1].split('&')
+                console.log(splits)
+                
+                for (let i=0;i<splits.length;i++){  
+                  if (splits[i].includes('fam=')& i!=0){
+                    splits[i]= 'fam='+val
+                  }  
+                  else if (splits[i].includes('fam=')) {
+                    splits[i]=splits[i].split('?')[0]+'?'+'fam='+val
+               
+                  }
+                }
+                
+                values[values.length-1] = splits.join('&')
+                
+                window.location.href= values.join('/').replaceAll('&amp;','&')
+              }              
+          }
+          {% endfor %}
+          function mySearch(){ 
+            var val =  document.getElementById("main-search-form").value;
+            if (!val){
+              val=''
+            }
+            if (!('{{request.get_full_path}}'.includes('?'))){  
+              var value = "{{request.get_full_path}}?q="+val
+              window.location.href =  value;
+            }
+            else if ( !( '{{request.get_full_path}}'.includes('q=')   )){    
+            var value = "{{request.get_full_path}}&q="+ val;
+
+            window.location.href =  value.replaceAll('&amp;','&');
+            }
+            else  {
+              values = "{{request.get_full_path}}".split('/')
+              splits = values[values.length-1].split('&')
+              console.log(splits)
+              for (let i=0;i<splits.length;i++){  
+                if (splits[i].includes('q=')& i!=0  ) {
+                  splits[i]= 'q='+val
+                }
+                else if (splits[i].includes('q=')) {
+                  splits[i]=splits[i].split('?')[0]+'?'+'q='+val
+             
+                }
+              }
+              values[values.length-1] = splits.join('&')
+              window.location.href= values.join('/').replaceAll('&amp;','&')
+              }
+        };
+
+        document.getElementById('regtrue').addEventListener('click',regTrue)
+        document.getElementById('regfalse').addEventListener('click',regFalse)
+        function regTrue(){
+          if (!('{{request.get_full_path}}'.includes('?'))){  
+            var value = "{{request.get_full_path}}?reg=1"
+            window.location.href =  value;
+          }
+          else if ( !( '{{request.get_full_path}}'.includes('reg=')   )){    
+            var value = "{{request.get_full_path}}&reg=1"
+            window.location.href =  value.replaceAll('&amp;','&');
+            }
+          else  {
+              values = "{{request.get_full_path}}".split('/')
+              splits = values[values.length-1].split('&')
+              console.log(splits)
+              for (let i=0;i<splits.length;i++){  
+                if (splits[i].includes('reg=')& i!=0  ) {
+                  splits[i]= 'reg=1'
+                }
+                else if (splits[i].includes('reg=')) {
+                  splits[i]=splits[i].split('?')[0]+'?'+'reg=1'
+             
+                }
+              }
+              values[values.length-1] = splits.join('&')
+              window.location.href= values.join('/').replaceAll('&amp;','&')
+              }            
+          }
+          function regFalse(){
+            if (!('{{request.get_full_path}}'.includes('?'))){  
+              var value = "{{request.get_full_path}}?reg=0"
+              window.location.href =  value;
+            }
+            else if ( !( '{{request.get_full_path}}'.includes('reg=')   )){    
+              var value = "{{request.get_full_path}}&reg=0"
+              window.location.href =  value.replaceAll('&amp;','&');
+              }
+            else  {
+                values = "{{request.get_full_path}}".split('/')
+                splits = values[values.length-1].split('&')
+                console.log(splits)
+                for (let i=0;i<splits.length;i++){  
+                  if (splits[i].includes('reg=')& i!=0  ) {
+                    splits[i]= 'reg=0'
+                  }
+                  else if (splits[i].includes('reg=')) {
+                    splits[i]=splits[i].split('?')[0]+'?'+'reg=0'
+               
+                  }
+                }
+                values[values.length-1] = splits.join('&')
+                window.location.href= values.join('/').replaceAll('&amp;','&')
+                }            
+            }          
+        </script>
+      </body>
+</html>
