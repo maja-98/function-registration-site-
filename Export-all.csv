@@ -1,17 +1,17 @@
 Name,Family,Age,Gender,participated
+Animation,Frederick,222,Male,False
+Test,Frederick,12,Female,False
+Robert,Frederick,33,Male,False
 Rojer,Frederick,12,Male,True
+Muhammed Ali Jouhar A,Tom,22,Male,False
+Twinkle,Tom,22,Female,False
+Alex,Tom,50,Male,False
 Holland,Tom,30,Male,False
 Sheldon,Cooper,28,Male,True
-Monica,Geller,23,Female,True
-Ross,Geller,30,Male,True
-Robert,Frederick,33,Male,False
-Alex,Tom,50,Male,False
-Judy,Geller,55,Female,False
-Chandler,Bing,30,Male,True
-Jack,Geller,60,Male,False
-Test,Frederick,12,Female,False
-Joey,Tribbiani,30,Male,True
 Amy,Farrah,32,Female,True
-Twinkle,Tom,22,Female,False
-Animation,Frederick,222,Male,False
-Muhammed Ali Jouhar A,Tom,22,Male,False
+Jack,Geller,60,Male,False
+Judy,Geller,55,Female,False
+Ross,Geller,30,Male,True
+Monica,Geller,23,Female,True
+Chandler,Bing,30,Male,True
+Joey,Tribbiani,30,Male,True
