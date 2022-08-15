@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'base.apps.BaseConfig'
+    'base.apps.BaseConfig',
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -123,8 +124,14 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
-MEDIA_ROOT = os.path.join(BASE_DIR,'static/images')
-MEDIA_URL='/images/'
+AWS_ACCESS_KEY_ID='AKIA35N54SMJKJCLTBZA'
+AWS_SECRET_ACCESS_KEY='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' 
+AWS_STORAGE_BUCKET_NAME = 'congent'
+AWS_S3_REGION_NAME = "ap-south-1"
+AWS_S3_SIGNATURE_VERSION = "s3v4"
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
